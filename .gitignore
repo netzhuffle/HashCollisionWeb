@@ -13,6 +13,3 @@ hs_err_pid*
 
 # eclispe files #
 .classpath
-*.class
-
-build/classes/ch/hsr/challp/neo2/HashCollisionServlet.class
