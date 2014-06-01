@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/HashCollisionServlet")
 public class HashCollisionServlet extends HttpServlet {
+    private static final long  serialVersionUID = 3563680876400401266L;
     public static final String PARAM_NAME       = "q~r_s@t!";
-    private static final long  serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
