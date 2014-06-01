@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/HashCollisionServlet")
 public class HashCollisionServlet extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
+    public static final String PARAM_NAME       = "q~r_s@t!";
+    private static final long  serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +40,7 @@ public class HashCollisionServlet extends HttpServlet {
         writer.println("<form method='post'>");
         writer.println("<label>");
         writer.println("Username:");
-        writer.println("<input name='name'>");
+        writer.println("<input name='" + PARAM_NAME + "'>");
         writer.println("</label>");
         writer.println("<input type='submit'>");
         writer.println("</form>");
@@ -57,9 +57,10 @@ public class HashCollisionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        long start = System.currentTimeMillis();
         HashCollision hashCollision = new HashCollision();
 
-        hashCollision.addUser(request.getParameter("name"));
+        hashCollision.addUser(request.getParameter(PARAM_NAME));
 
         PrintWriter writer = response.getWriter();
 
@@ -68,14 +69,16 @@ public class HashCollisionServlet extends HttpServlet {
         writer.println("<body>");
         writer.println("<h1>Erfolgreich</h1>");
         writer.println("Hallo");
-        writer.println(hashCollision.getUser(request.getParameter("name")));
+        writer.println(hashCollision.getUser(request.getParameter(PARAM_NAME)));
         writer.println("</form>");
         writer.println("<body>");
         writer.println("</html>");
 
         writer.close();
-
-        System.out.println(request.getParameter("name").hashCode());
+        System.out.println(request.getParameter(PARAM_NAME).hashCode());
+        System.out.println("request map size: "
+                + request.getParameterMap().size());
+        System.out.println("time: " + (System.currentTimeMillis() - start));
 
         // for (int iterations = 1000; iterations < 100000; iterations += 1000)
         // {
