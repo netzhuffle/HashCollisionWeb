@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-//import sun.misc.Hashing;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class Hacker {
     public static void main(String[] args) throws Exception {
         // will produce 4^stringlength collisons. so 10 will produce 1'048'576
         // collisions
-        int stringlength = 8;
+        int stringlength = 7;
         URL server = new URL(
                 "http://localhost:8080/HashCollisionWeb/HashCollisionServlet");
 
