@@ -21,7 +21,7 @@ public class Hacker {
     public static void main(String[] args) throws Exception {
         // will produce 4^stringlength collisons. so 10 will produce 1'048'576
         // collisions
-        int stringlength = 7;
+        int stringlength = 8;
         URL server = new URL(
                 "http://localhost:8080/HashCollisionWeb/HashCollisionServlet");
 
