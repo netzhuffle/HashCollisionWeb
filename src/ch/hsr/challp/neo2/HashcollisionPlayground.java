@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Class containing methods to find new collisions and other misc. stuff.
+ */
 public class HashcollisionPlayground {
     public static void main(String[] args) {
         String[] basestring = new String[4];
@@ -13,34 +17,22 @@ public class HashcollisionPlayground {
         basestring[2] = "s@";
         basestring[3] = "t!";
 
-        int stringlength = 10;
-        generateCombinations(stringlength, basestring);
-        // possibleStrings(stringlength / 2, basestring, "");
-
-        // System.out.println("Ey".hashCode());
-        // System.out.println("FZ".hashCode());
-        // q~, r_, s@, t!,
-
-        // System.out.println("q~q~r_".hashCode());
-        // System.out.println("r_r_s@".hashCode());
-        // System.out.println("s@t!s@".hashCode());
-        // System.out.println("t!t!q~".hashCode());
-
-        //
-        // System.out.println("tttt".hashCode());
-        // System.out.println("ttuU".hashCode());
-        // System.out.println("ttv6".hashCode());
-        // System.out.println("uUv6".hashCode());
+        long start = System.currentTimeMillis();
+        System.out.println("start: " + start);
+        int stringlength = 8;
+        List<String> foo = generateCombinations(stringlength, basestring);
+        System.out.println("generating combinations (since start): "
+                + (System.currentTimeMillis() - start) + "ms");
+        Map<String, String[]> collisions = new HashMap<>();
+        for (String f : foo) {
+            collisions.put(f, new String[] { "" });
+        }
+        System.out.println("unnecessary unimportant stuff (since start): "
+                + (System.currentTimeMillis() - start) + "ms");
+        System.out.println(countCollisions(collisions) + " collisions");
+        System.out.println("counting collisions (since start): "
+                + (System.currentTimeMillis() - start) + "ms");
     }
-    
-    //  public static void debugNullAHashCodes() {
-        //  String a = "a";
-        //  String na = "\0a";
-        //  String nnna = "\0\0\0a";
-        //  String an = "a\0";
-        //  System.out.println(a.hashCode() + "/" + na.hashCode() + "/" + nnna.hashCode() + "/" + an.hashCode());
-        //  System.out.println(Hashing.stringHash32(a) + "/" + Hashing.stringHash32(na) + "/" + Hashing.stringHash32(nnna) + "/" + Hashing.stringHash32(an));
-    //  }
 
     private static final void possibleStrings(int maxLength, String[] alphabet,
             String curr) {
@@ -91,7 +83,35 @@ public class HashcollisionPlayground {
                 System.out.println();
             }
         }
+    }
 
+    private static final int countCollisions(Map<String, String[]> map) {
+        long startCounter = System.currentTimeMillis();
+
+        // the highest found number of collisions
+        int max = 0;
+        /*
+         * <hash, number of collisions for this count> using an AtomicInteger
+         * since its faster than always override an Integer value (using
+         * collisions.put(key, collisions.get(key) + 1);)
+         */
+        Map<Integer, AtomicInteger> collisions = new HashMap<>();
+        for (String key : map.keySet()) {
+            // i don’t like autoboxing
+            Integer hash = Integer.valueOf(key.hashCode());
+            AtomicInteger counter = collisions.get(hash);
+            if (counter == null) {
+                counter = new AtomicInteger();
+                collisions.put(hash, counter);
+            }
+            counter.incrementAndGet();
+            if (counter.intValue() > max) {
+                max = counter.intValue();
+            }
+        }
+        System.out.println(System.currentTimeMillis() - startCounter
+                + "ms for counting collisions");
+        return max;
     }
 
     private static final List<String> generateCombinations(int arraySize,
