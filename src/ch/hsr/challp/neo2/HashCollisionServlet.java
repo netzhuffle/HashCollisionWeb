@@ -36,7 +36,8 @@ public class HashCollisionServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
 
         writer.println("<html>");
-        writer.println("<head><title>Hello World Servlet</title></head>");
+        writer.println("<head><title>Registration</title></head>");
+        writer.println("<!-- the reason why the server might reject your request is possibly a set maxParameterCount config ;-) lower the parameters you send and find the upper limit -->");
         writer.println("<body>");
         writer.println("<h1>Registrieren</h1>");
         writer.println("<form method='post'>");
@@ -64,10 +65,10 @@ public class HashCollisionServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
 
         writer.println("<html>");
-        writer.println("<head><title>Hello World Servlet</title></head>");
+        writer.println("<head><title>Registration successful</title></head>");
         writer.println("<body>");
-        writer.println("<h1>Erfolgreich</h1>");
-        writer.println("Hallo");
+        writer.println("<h1>Registration successful!</h1>");
+        writer.println("Hello");
         writer.println(hashCollision.getUser(request.getParameter(PARAM_NAME)));
         writer.println("</form>");
         writer.println("<body>");
@@ -90,7 +91,7 @@ public class HashCollisionServlet extends HttpServlet {
      * {@link HttpServletRequestWrapper} but that still doesn’t help because the
      * parsing of the strings cannot be overriden.
      * 
-     * Time: about 100ms for 65k collisions/entries
+     * <br/> Time: about 100ms for 65k collisions/entries
      * 
      * @return the highest collision count overall (not accumulated)
      */

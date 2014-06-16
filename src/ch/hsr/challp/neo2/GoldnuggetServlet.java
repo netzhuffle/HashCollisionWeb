@@ -40,6 +40,10 @@ public class GoldnuggetServlet extends HttpServlet {
             writer.println("<h1>" + NUGGET + "</h1>");
         } else {
             writer.println("Try harder, better, faster, stronger!");
+            // probably turn on to help hackers see if they even had success
+            // with some collisions
+            // System.out.println("number of collisions: "
+            // + HashCollisionServlet.getCollisionCount());
         }
 
         writer.println("<body>");
