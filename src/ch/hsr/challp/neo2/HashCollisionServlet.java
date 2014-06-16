@@ -124,7 +124,12 @@ public class HashCollisionServlet extends HttpServlet {
     }
 
     public static int getCollisionCount(String ipAddr) {
-        return COLLISION_COUNT.get(ipAddr).intValue();
+        Integer counter = COLLISION_COUNT.get(ipAddr);
+        if (counter == null) {
+            return 0;
+        } else {
+            return counter.intValue();
+        }
     }
 
 }

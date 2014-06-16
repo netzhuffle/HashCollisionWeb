@@ -24,7 +24,7 @@ public class Hacker {
         // collisions
         int stringlength = 7;
         URL server = new URL(
-                "http://46.126.120.203:8080/HashCollisionWeb/HashCollisionServlet");
+                "http://localhost:8080/HashCollisionWeb/HashCollisionServlet");
 
         // takes about 2-3 seconds for a million collisions
         List<String> collisions = generateCombinations(stringlength, basestring);
