@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/HashCollisionServlet")
 public class HashCollisionServlet extends HttpServlet {
-    private static final long  serialVersionUID = 3563680876400401266L;
-    public static final String PARAM_NAME       = "name";
-    private static int         COLLISION_COUNT  = 0;
+    private static final long           serialVersionUID = 3563680876400401266L;
+    public static final String          PARAM_NAME       = "name";
+    private static Map<String, Integer> COLLISION_COUNT  = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest request,
@@ -56,7 +56,7 @@ public class HashCollisionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        COLLISION_COUNT = 0;
+        COLLISION_COUNT.put(request.getRemoteAddr(), Integer.valueOf(0));
         long start = System.currentTimeMillis();
         HashCollision hashCollision = new HashCollision();
 
@@ -67,7 +67,7 @@ public class HashCollisionServlet extends HttpServlet {
         writer.println("<html>");
         writer.println("<head><title>Registration successful</title></head>");
         writer.println("<body>");
-        writer.println("<h1>Registration successful!</h1>");
+        writer.println("<h1>Registration successful!</h1> ");
         writer.println("Hello");
         writer.println(hashCollision.getUser(request.getParameter(PARAM_NAME)));
         writer.println("</form>");
@@ -82,7 +82,9 @@ public class HashCollisionServlet extends HttpServlet {
         System.out.println("time: " + time + "s");
 
         // count whether there are enough collisions
-        COLLISION_COUNT = countCollisions(request.getParameterMap());
+        int collisionCountForIp = countCollisions(request.getParameterMap());
+        COLLISION_COUNT.put(request.getRemoteAddr(),
+                Integer.valueOf(collisionCountForIp));
     }
 
     /**
@@ -121,8 +123,8 @@ public class HashCollisionServlet extends HttpServlet {
         return max;
     }
 
-    public static int getCollisionCount() {
-        return COLLISION_COUNT;
+    public static int getCollisionCount(String ipAddr) {
+        return COLLISION_COUNT.get(ipAddr).intValue();
     }
 
 }

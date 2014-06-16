@@ -36,14 +36,15 @@ public class GoldnuggetServlet extends HttpServlet {
         writer.println("<html>");
         writer.println("<head><title>Hello World Servlet</title></head>");
         writer.println("<body>");
-        if (HashCollisionServlet.getCollisionCount() > SUCCESS_BARRIER) {
+        if (HashCollisionServlet.getCollisionCount(request.getRemoteAddr()) > SUCCESS_BARRIER) {
             writer.println("<h1>" + NUGGET + "</h1>");
         } else {
             writer.println("Try harder, better, faster, stronger!");
             // probably turn on to help hackers see if they even had success
             // with some collisions
             // System.out.println("number of collisions: "
-            // + HashCollisionServlet.getCollisionCount());
+            // +
+            // HashCollisionServlet.getCollisionCount(request.getRemoteAddr()));
         }
 
         writer.println("<body>");
